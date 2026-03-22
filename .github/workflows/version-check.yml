@@ -1,0 +1,35 @@
+name: Version Check
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  version-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+
+      - name: Get PR version
+        id: pr_version
+        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+
+      - name: Get main version
+        id: main_version
+        run: |
+          git fetch origin main
+          echo "version=$(git show origin/main:package.json | node -p "JSON.parse(require('fs').readFileSync('/dev/stdin','utf8')).version")" >> $GITHUB_OUTPUT
+
+      - name: Compare versions
+        run: |
+          PR="${{ steps.pr_version.outputs.version }}"
+          MAIN="${{ steps.main_version.outputs.version }}"
+          echo "main: $MAIN"
+          echo "PR:   $PR"
+          if [ "$(printf '%s\n' "$MAIN" "$PR" | sort -V | tail -1)" = "$MAIN" ]; then
+            echo "❌ Version must be greater than main ($MAIN). Got: $PR"
+            exit 1
+          fi
+          echo "✅ Version bumped: $MAIN → $PR"
