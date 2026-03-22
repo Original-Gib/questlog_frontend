@@ -35,12 +35,12 @@ async function handleOAuth(provider: Provider) {
           <circle cx="17" cy="13" r="1" fill="currentColor" stroke="none" />
         </svg>
       </div>
-      <span class="text-2xl font-bold tracking-tight text-fg-dim dark:text-fg">QuestLog</span>
+      <h1 class="text-2xl font-bold tracking-tight text-fg-dim dark:text-fg">QuestLog</h1>
     </div>
 
     <!-- Card -->
     <div class="flex flex-col gap-4 rounded-xl border border-neutral-200 bg-neutral-50 p-8 dark:border-white/10 dark:bg-white/5">
-      <h1 class="text-lg font-semibold text-fg-dim dark:text-fg">{{ title }}</h1>
+      <h2 class="text-lg font-semibold text-fg-dim dark:text-fg">{{ title }}</h2>
 
       <!-- OAuth buttons -->
       <div class="flex justify-center gap-3">
