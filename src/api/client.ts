@@ -1,7 +1,11 @@
+import { supabase } from '@/lib/supabase'
+
 const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080'
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
-  const token = localStorage.getItem('token')
+  const { data } = await supabase.auth.getSession()
+  const token = data.session?.access_token
+
   const res = await fetch(`${BASE_URL}${path}`, {
     ...init,
     headers: {

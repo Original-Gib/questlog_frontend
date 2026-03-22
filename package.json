@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.2.8",
+    "@supabase/supabase-js": "^2.99.3",
     "@tailwindcss/vite": "^4.2.2",
     "pinia": "^3.0.4",
     "tailwindcss": "^4.2.2",
