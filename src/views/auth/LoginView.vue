@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import type { Provider } from '@supabase/supabase-js'
 import { oauthProviders } from '@/lib/oauthProviders'
+import OAuthIcon from '@/components/OAuthIcon.vue'
 
 const router = useRouter()
 const auth = useAuthStore()
@@ -59,7 +60,7 @@ async function handleLogin() {
 
       <div class="flex justify-center gap-3">
         <button
-          v-for="{ provider, label, icon } in oauthProviders"
+          v-for="{ provider, label } in oauthProviders"
           :key="provider"
           type="button"
           :disabled="oauthLoading !== null"
@@ -68,7 +69,7 @@ async function handleLogin() {
           class="flex h-10 w-10 items-center justify-center rounded-md border border-neutral-200 bg-white transition hover:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-50 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10"
           @click="handleOAuth(provider)"
         >
-          <span class="h-5 w-5" v-html="icon" />
+          <OAuthIcon :provider="provider" class="h-5 w-5" />
         </button>
       </div>
 

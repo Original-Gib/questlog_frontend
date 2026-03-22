@@ -6,8 +6,8 @@ import NavLink from '@/components/NavLink.vue'
 const router = useRouter()
 const auth = useAuthStore()
 
-function logout() {
-  auth.clearAuth()
+async function logout() {
+  await auth.logout()
   router.push({ name: 'login' })
 }
 </script>

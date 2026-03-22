@@ -1,10 +1,12 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import type { Provider, Session, User } from '@supabase/supabase-js'
+import type { Provider, Session, Subscription, User } from '@supabase/supabase-js'
 import { supabase } from '@/lib/supabase'
 
 export const useAuthStore = defineStore('auth', () => {
   const session = ref<Session | null>(null)
+  const initialized = ref(false)
+  let subscription: Subscription | null = null
 
   const isAuthenticated = computed(() => session.value !== null)
   const user = computed<User | null>(() => session.value?.user ?? null)
@@ -12,10 +14,16 @@ export const useAuthStore = defineStore('auth', () => {
   async function initialize() {
     const { data } = await supabase.auth.getSession()
     session.value = data.session
+    initialized.value = true
 
-    supabase.auth.onAuthStateChange((_event, newSession) => {
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, newSession) => {
       session.value = newSession
     })
+    subscription = listener.subscription
+  }
+
+  function dispose() {
+    subscription?.unsubscribe()
   }
 
   async function login(email: string, password: string) {
@@ -41,5 +49,5 @@ export const useAuthStore = defineStore('auth', () => {
     if (error) throw error
   }
 
-  return { session, user, isAuthenticated, initialize, login, register, loginWithOAuth, logout }
+  return { session, user, initialized, isAuthenticated, initialize, dispose, login, register, loginWithOAuth, logout }
 })
