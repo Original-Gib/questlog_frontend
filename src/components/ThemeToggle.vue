@@ -6,7 +6,7 @@ const theme = useThemeStore()
 
 <template>
   <footer class="flex justify-center py-4">
-    <div class="flex cursor-pointer items-center gap-2 text-sm text-muted">
+    <div class="flex items-center gap-2 text-sm text-muted">
       <span>{{ theme.isDark ? 'Dark mode' : 'Light mode' }}</span>
       <button
         role="switch"
