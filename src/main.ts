@@ -10,4 +10,7 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 
+import { useThemeStore } from './stores/theme'
+useThemeStore()
+
 app.mount('#app')
