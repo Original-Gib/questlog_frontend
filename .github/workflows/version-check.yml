@@ -26,10 +26,17 @@ jobs:
         run: |
           PR="${{ steps.pr_version.outputs.version }}"
           MAIN="${{ steps.main_version.outputs.version }}"
-          echo "main: $MAIN"
-          echo "PR:   $PR"
           if [ "$(printf '%s\n' "$MAIN" "$PR" | sort -V | tail -1)" = "$MAIN" ]; then
-            echo "❌ Version must be greater than main ($MAIN). Got: $PR"
+            echo "## ❌ Version check failed" >> $GITHUB_STEP_SUMMARY
+            echo "The version in \`package.json\` must be greater than the version on \`main\`." >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "| | Version |" >> $GITHUB_STEP_SUMMARY
+            echo "|---|---|" >> $GITHUB_STEP_SUMMARY
+            echo "| \`main\` | \`$MAIN\` |" >> $GITHUB_STEP_SUMMARY
+            echo "| This PR | \`$PR\` |" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Bump the version in \`package.json\` before merging." >> $GITHUB_STEP_SUMMARY
             exit 1
           fi
-          echo "✅ Version bumped: $MAIN → $PR"
+          echo "## ✅ Version check passed" >> $GITHUB_STEP_SUMMARY
+          echo "\`$MAIN\` → \`$PR\`" >> $GITHUB_STEP_SUMMARY
