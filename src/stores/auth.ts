@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import type { Session, User } from '@supabase/supabase-js'
+import type { Provider, Session, User } from '@supabase/supabase-js'
 import { supabase } from '@/lib/supabase'
 
 export const useAuthStore = defineStore('auth', () => {
@@ -28,10 +28,18 @@ export const useAuthStore = defineStore('auth', () => {
     if (error) throw error
   }
 
+  async function loginWithOAuth(provider: Provider) {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider,
+      options: { redirectTo: window.location.origin },
+    })
+    if (error) throw error
+  }
+
   async function logout() {
     const { error } = await supabase.auth.signOut()
     if (error) throw error
   }
 
-  return { session, user, isAuthenticated, initialize, login, register, logout }
+  return { session, user, isAuthenticated, initialize, login, register, loginWithOAuth, logout }
 })
