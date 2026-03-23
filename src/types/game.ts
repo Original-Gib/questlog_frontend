@@ -1,9 +1,8 @@
 export interface Game {
-  id: string
-  title: string
-  coverUrl: string
-  releaseDate: string
-  genres: string[]
+  id: number
+  name: string
+  cover_url: string
   platforms: string[]
-  summary: string
+  first_release_date: number
+  rating: number
 }
