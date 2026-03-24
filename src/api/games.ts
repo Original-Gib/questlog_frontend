@@ -3,5 +3,6 @@ import type { Game } from '@/types/game'
 
 export const gamesApi = {
   search: (query: string) => api.get<Game[]>(`/games?q=${encodeURIComponent(query)}`),
-  getById: (id: string) => api.get<Game>(`/games/${id}`),
+  getById: (id: number) => api.get<Game>(`/games/${id}`),
+  getPopular: () => api.get<{ games: Game[] }>('/api/v1/games/popular'),
 }

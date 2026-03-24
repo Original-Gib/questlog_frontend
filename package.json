@@ -1,6 +1,6 @@
 {
   "name": "questlog_frontend",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -20,6 +20,7 @@
     "@tailwindcss/vite": "^4.2.2",
     "pinia": "^3.0.4",
     "tailwindcss": "^4.2.2",
+    "vite-svg-loader": "^5.1.1",
     "vue": "^3.5.29",
     "vue-router": "^5.0.3"
   },
