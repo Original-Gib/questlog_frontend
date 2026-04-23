@@ -4,5 +4,6 @@ export interface Game {
   cover_url: string
   platforms: string[]
   first_release_date: number
-  rating: number
+  rating?: number
+  hypes?: number
 }
