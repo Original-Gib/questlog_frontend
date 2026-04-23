@@ -6,7 +6,7 @@ import PlatformIcon from '@/components/PlatformIcon.vue'
 const props = defineProps<{ game: Game }>()
 
 const releaseYear = computed(() => new Date(props.game.first_release_date * 1000).getFullYear())
-const roundedRating = computed(() => Math.round(props.game.rating))
+const roundedRating = computed(() => (props.game.rating != null ? Math.round(props.game.rating) : null))
 
 function iconFamily(platform: string): string {
   if (platform.startsWith('PlayStation')) return 'PlayStation'
@@ -74,13 +74,21 @@ const visiblePlatforms = computed(() => {
         </span>
       </div>
 
-      <!-- Rating and year -->
+      <!-- Score and year -->
       <div class="mt-auto flex items-center gap-2 text-xs text-muted">
-        <span class="flex items-center gap-1">
+        <!-- Rating (popular games) -->
+        <span v-if="roundedRating != null" class="flex items-center gap-1">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-amber-400" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
           </svg>
           {{ roundedRating }}
+        </span>
+        <!-- Hype (upcoming games) -->
+        <span v-else-if="game.hypes != null" class="flex items-center gap-1">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-orange-400" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 1C8.5 7 10 10 7 13c-1.5-2-1-4-1-4C3.5 11 2 14 2 17a10 10 0 0 0 20 0c0-6-4-12-10-16zm0 18a4 4 0 0 1-4-4c0-2.5 2-5 4-6 2 1 4 3.5 4 6a4 4 0 0 1-4 4z" />
+          </svg>
+          {{ game.hypes }}
         </span>
         <span aria-hidden="true">·</span>
         <span>{{ releaseYear }}</span>
